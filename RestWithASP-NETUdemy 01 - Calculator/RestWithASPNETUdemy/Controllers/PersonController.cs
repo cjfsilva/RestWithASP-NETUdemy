@@ -1,85 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
+﻿using Microsoft.AspNetCore.Mvc;
+using RestWithASPNETUdemy.Model;
+using RestWithASPNETUdemy.Business;
 namespace RestWithASPNETUdemy.Controllers
+
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1")]
+    //[Route("api/[controller]/v{version:apiVersion}")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class PersonController : Controller
     {
-        // GET api/calculator/sum/{firstNumber/secondNumber}
-        [HttpGet("sum/{firstNumber}/{secondNumber}")]
-       public IEnumerable<string> Get()
+        private readonly IPersonBusiness _personBusiness;
+
+        public PersonController(IPersonBusiness personBusiness)
         {
-            return new string[] { "value1", "value2" };
+            _personBusiness = personBusiness;
         }
 
-        // GET api/calculator/subtraction/{firstNumber/secondNumber}
-        [HttpGet("subtraction/{firstNumber}/{secondNumber}")]
-        public IActionResult Subtraction(string firstNumber, string secondNumber)
+        // GET api/person
+        [HttpGet]
+       public IActionResult Get()
         {
-            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
-            {
-                var sum = CovertToDecimal(firstNumber) - CovertToDecimal(secondNumber);
-                return Ok(sum.ToString());
-            }
-            return BadRequest("Invalid Input");
+            return Ok(_personBusiness.FindAll());
         }
 
-        // GET api/calculator/division/{firstNumber/secondNumber}
-        [HttpGet("division/{firstNumber}/{secondNumber}")]
-        public IActionResult Division(string firstNumber, string secondNumber)
+        // GET api/person/{id}
+        [HttpGet("{id}")]
+        public IActionResult Get(long id)
         {
-            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
-            {
-                var sum = CovertToDecimal(firstNumber) / CovertToDecimal(secondNumber);
-                return Ok(sum.ToString());
-            }
-            return BadRequest("Invalid Input");
+            var person = _personBusiness.FindById(id);
+            if (person == null) return NotFound();
+            return Ok(person);
         }
 
-        // GET api/calculator/multiplication/{firstNumber/secondNumber}
-        [HttpGet("multiplication/{firstNumber}/{secondNumber}")]
-        public IActionResult Multiplication(string firstNumber, string secondNumber)
+        // POST api/person
+        [HttpPost]
+        public IActionResult Post([FromBody]Person person)
         {
-            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
-            {
-                var sum = CovertToDecimal(firstNumber) * CovertToDecimal(secondNumber);
-                return Ok(sum.ToString());
-            }
-            return BadRequest("Invalid Input");
+            if (person == null) return BadRequest();
+            return new ObjectResult(_personBusiness.Create(person));
         }
 
-        // GET api/calculator/squareroot/{number}
-        [HttpGet("squareroot/{number}")]
-        public IActionResult SquareRoot(string number)
+        // PUT api/person/{id}
+        [HttpPut]
+        public IActionResult Put([FromBody] Person person)
         {
-            if (IsNumeric(number))
-            {
-                var squareRoot = Math.Sqrt((double)CovertToDecimal(number));
-                return Ok(squareRoot.ToString());
-            }
-            return BadRequest("Invalid Input");
+            if (person == null) return BadRequest();
+            var updatedPerson = _personBusiness.Update(person);
+            if (updatedPerson == null) return NoContent();
+            return new ObjectResult(updatedPerson);
         }
 
-        private decimal CovertToDecimal(string number)
+        // DELETE api/person/{id}
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            decimal decimalValue;
-            if (decimal.TryParse(number, out decimalValue))
-            {
-                return decimalValue;
-            }
-            return 0;
+            _personBusiness.Delete(id);
+            return NoContent();
         }
 
-        private bool IsNumeric(string strNumber)
-        {
-            double number;
-            bool isNumber = double.TryParse(strNumber, System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out number);
-            return isNumber;
-        }
     }    
 }
