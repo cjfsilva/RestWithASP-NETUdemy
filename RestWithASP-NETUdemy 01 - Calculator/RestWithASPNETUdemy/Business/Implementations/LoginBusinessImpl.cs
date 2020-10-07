@@ -1,4 +1,5 @@
-﻿using RestWithASPNETUdemy.Data.VO;
+﻿using Microsoft.IdentityModel.Tokens;
+using RestWithASPNETUdemy.Data.VO;
 using RestWithASPNETUdemy.Repository;
 using RestWithASPNETUdemy.Security.Configuration;
 using System;
@@ -10,37 +11,37 @@ namespace RestWithASPNETUdemy.Business.Implementations
 {
     public class LoginBusinessImpl : ILoginBusiness
     {
-        private ILoginRepository _repository;
+        private IUserRepository _repository;
         private SigningConfigurations _signingConfigurations;
         private TokenConfigurations _tokenConfigurations;
 
-        public LoginBusinessImpl(ILoginRepository repository, SigningConfigurations signingConfigurations, TokenConfigurations tokenConfigurations)
+        public LoginBusinessImpl(IUserRepository repository, SigningConfigurations signingConfigurations, TokenConfigurations tokenConfigurations)
         {
             _repository = repository;
             _signingConfigurations = signingConfigurations;
             _tokenConfigurations = tokenConfigurations;
         }
 
-        public object FindByLogin(LoginVO login)
+        public object FindByLogin(UserVO user)
         {
             bool credentialIsValid = false;
-            if (login != null && !string.IsNullOrWhiteSpace(login.Login))
+            if (user != null && !string.IsNullOrWhiteSpace(user.Login))
             {
-                var baseUser = _repository.FindByLogin(login.Login);
-                credentialIsValid = (baseUser != null && login.Login == baseUser.Logins && login.AccessKey == baseUser.AccessKey);
+                var baseUser = _repository.FindByLogin(user.Login);
+                credentialIsValid = (baseUser != null && user.Login == baseUser.Login && user.AccessKey == baseUser.AccessKey);
             }
             if (credentialIsValid)
             {
                 ClaimsIdentity identity = new ClaimsIdentity(
-                    new GenericIdentity(login.Login, "Login"),
+                    new GenericIdentity(user.Login, "Login"),
                     new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                        new Claim(JwtRegisteredClaimNames.UniqueName, login.Login)
+                        new Claim(JwtRegisteredClaimNames.UniqueName, user.Login)
                     }
                 );
                 DateTime createDate = DateTime.Now;
-                DateTime expirationDate = createDate + TimeSpan.FromSeconds(_tokenConfigurations.Second);
+                DateTime expirationDate = createDate + TimeSpan.FromSeconds(_tokenConfigurations.Seconds);
                 var handler = new JwtSecurityTokenHandler();
                 string token = CreateToken(identity, createDate, expirationDate, handler);
                 return SuccesObject(createDate, expirationDate, token);
@@ -52,7 +53,7 @@ namespace RestWithASPNETUdemy.Business.Implementations
 
         private string CreateToken(ClaimsIdentity identity, DateTime createDate, DateTime expirationDate, JwtSecurityTokenHandler handler)
         {
-            var securityToken = handler.CreateToken(new Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor
+            var securityToken = handler.CreateToken(new SecurityTokenDescriptor
             {
                 Issuer = _tokenConfigurations.Issuer,
                 Audience = _tokenConfigurations.Audience,

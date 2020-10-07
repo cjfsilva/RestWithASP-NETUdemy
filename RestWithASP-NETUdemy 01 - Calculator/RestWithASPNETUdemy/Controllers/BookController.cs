@@ -24,22 +24,25 @@ namespace RestWithASPNETUdemy.Controllers
 
         // GET api/Books
         [HttpGet]
-        [SwaggerResponse((200), Type = typeof(List<BookVO>))]
+        [SwaggerResponse((200))]
+        //[SwaggerResponse((200), Type = typeof(List<BookVO>))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
         //[Authorize(Policy = "Bearer")]
-        //[Authorize("Bearer")]
+        [Authorize("Bearer")]
+        
         [TypeFilter(typeof(HyperMediaFilter))]
 
         public IActionResult Get()
         {
-            return Ok(_bookBusiness.FindAll());
+            return new ObjectResult(_bookBusiness.FindAll());
         }
 
         // GET api/Books/{id}
         [HttpGet("{id}")]
-        [SwaggerResponse((200), Type = typeof(BookVO))]
+        [SwaggerResponse((200))]
+        //[SwaggerResponse((200), Type = typeof(BookVO))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
@@ -49,12 +52,13 @@ namespace RestWithASPNETUdemy.Controllers
         {
             var books = _bookBusiness.FindById(id);
             if (books == null) return NotFound();
-            return Ok(books);
+            return new OkObjectResult(books);
         }
 
         // POST api/Books
         [HttpPost]
-        [SwaggerResponse((201), Type = typeof(BookVO))]
+        [SwaggerResponse((201))]
+        //[SwaggerResponse((201), Type = typeof(BookVO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
         //[Authorize("Bearer")]
@@ -67,7 +71,8 @@ namespace RestWithASPNETUdemy.Controllers
 
         // PUT api/Books
         [HttpPut]
-        [SwaggerResponse((202), Type = typeof(BookVO))]
+        [SwaggerResponse((202))]
+        //[SwaggerResponse((202), Type = typeof(BookVO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
         //[Authorize("Bearer")]
@@ -82,7 +87,8 @@ namespace RestWithASPNETUdemy.Controllers
 
         // PATCH api/Books
         [HttpPatch]
-        [SwaggerResponse((202), Type = typeof(BookVO))]
+        [SwaggerResponse((202))]
+        //[SwaggerResponse((202), Type = typeof(BookVO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
         //[Authorize("Bearer")]
@@ -97,7 +103,8 @@ namespace RestWithASPNETUdemy.Controllers
 
         // DELETE api/Books/{id}
         [HttpDelete("{id}")]
-        [SwaggerResponse((204), Type = typeof(BookVO))]
+        [SwaggerResponse((204))]
+        //[SwaggerResponse((204), Type = typeof(BookVO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
         //[Authorize("Bearer")]

@@ -1,9 +1,10 @@
 ﻿using RestWithASPNETUdemy.Data.VO;
+using RestWithASPNETUdemy.Model;
 
 namespace RestWithASPNETUdemy.Business
 {
     public interface ILoginBusiness
     {
-        object FindByLogin(LoginVO login);
+        object FindByLogin(UserVO user);
     }
 }

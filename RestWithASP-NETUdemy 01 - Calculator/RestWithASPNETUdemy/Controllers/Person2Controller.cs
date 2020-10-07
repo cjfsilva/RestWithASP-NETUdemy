@@ -24,7 +24,8 @@ namespace RestWithASPNETUdemy.Controllers
 
         // GET api/Person2
         [HttpGet]
-        [SwaggerResponse((200), Type = typeof(List<Person2VO>))]
+        [SwaggerResponse(200)]
+        //[SwaggerResponse((200), Type = typeof(List<Person2VO>))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
@@ -38,7 +39,8 @@ namespace RestWithASPNETUdemy.Controllers
         }
 
         [HttpGet("find-by-name")]
-        [SwaggerResponse((200), Type = typeof(List<Person2VO>))]
+        [SwaggerResponse(200)]
+        //[SwaggerResponse((200), Type = typeof(List<Person2VO>))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
@@ -52,7 +54,8 @@ namespace RestWithASPNETUdemy.Controllers
         }
 
         [HttpGet("find-with-paged-search/{sortDirection}/{pageSize}/{page}")]
-        [SwaggerResponse((200), Type = typeof(List<Person2VO>))]
+        [SwaggerResponse(200)]
+        //[SwaggerResponse((200), Type = typeof(List<Person2VO>))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
@@ -67,7 +70,8 @@ namespace RestWithASPNETUdemy.Controllers
 
         // GET api/Person/{id}
         [HttpGet("{id}")]
-        [SwaggerResponse((200), Type = typeof(Person2VO))]
+        [SwaggerResponse(200)]
+        //[SwaggerResponse((200), Type = typeof(Person2VO))]
         [SwaggerResponse(204)]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
@@ -82,7 +86,8 @@ namespace RestWithASPNETUdemy.Controllers
 
         // POST api/Person2
         [HttpPost]
-        [SwaggerResponse((201), Type = typeof(Person2VO))]
+        [SwaggerResponse(201)]
+        //[SwaggerResponse((201), Type = typeof(Person2VO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
         //[Authorize("Bearer")]
@@ -95,7 +100,8 @@ namespace RestWithASPNETUdemy.Controllers
 
         // PUT api/Person2
         [HttpPut]
-        [SwaggerResponse((202), Type = typeof(Person2VO))]
+        [SwaggerResponse(202)]
+        //[SwaggerResponse((202), Type = typeof(Person2VO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
         //[Authorize("Bearer")]
@@ -110,7 +116,8 @@ namespace RestWithASPNETUdemy.Controllers
 
         // PATCH api/Person2
         [HttpPatch]
-        [SwaggerResponse((202), Type = typeof(Person2VO))]
+        [SwaggerResponse(202)]
+        //[SwaggerResponse((202), Type = typeof(Person2VO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
         //[Authorize("Bearer")]
@@ -125,7 +132,8 @@ namespace RestWithASPNETUdemy.Controllers
 
         // DELETE api/Person2/{id}
         [HttpDelete("{id}")]
-        [SwaggerResponse((204), Type = typeof(Person2VO))]
+        [SwaggerResponse(204)]
+        //[SwaggerResponse((204), Type = typeof(Person2VO))]
         [SwaggerResponse(400)]
         [SwaggerResponse(401)]
         //[Authorize("Bearer")]

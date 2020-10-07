@@ -20,10 +20,10 @@ namespace RestWithASPNETUdemy.Controllers
         // POST api/v1/login
         [AllowAnonymous]
         [HttpPost]
-        public object Post([FromBody]LoginVO login)
+        public object Post([FromBody]UserVO user)
         {
-            if (login == null) return BadRequest();
-            return _loginBusiness.FindByLogin(login);
+            if (user == null) return BadRequest();
+            return _loginBusiness.FindByLogin(user);
         }
     }    
 }

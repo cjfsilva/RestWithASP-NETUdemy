@@ -4,18 +4,18 @@ using System.Linq;
 
 namespace RestWithASPNETUdemy.Repository.Implementations
 {
-    public class LoginRepositoryImpl : ILoginRepository
+    public class UserRepositoryImpl : IUserRepository
     {
         private readonly MySQLContext _context;
 
-        public LoginRepositoryImpl(MySQLContext context)
+        public UserRepositoryImpl(MySQLContext context)
         {
             _context = context;
         }
 
-        public Login FindByLogin(string login)
+        public User FindByLogin(string login)
         {
-            return _context.Logins.SingleOrDefault(u => u.Logins.Equals(login));
+            return _context.Users.SingleOrDefault(u => u.Login.Equals(login));
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using RestWithASPNETUdemy.Model.Base;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestWithASPNETUdemy.Model
 {
+    [Table("persons2")]
     public class Person2 : BaseEntity
     {
         //public long? Id { get; set; }

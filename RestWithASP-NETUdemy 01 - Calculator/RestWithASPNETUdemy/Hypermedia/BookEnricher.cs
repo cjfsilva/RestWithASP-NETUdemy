@@ -12,14 +12,6 @@ namespace RestWithASPNETUdemy.Hypermedia
             var path = "api/v1/book";
             var url = new { controller = path, id = content.Id };
 
-            //content.Links.Add(new HyperMediaLink()
-            //{
-            //    Action = HttpActionVerb.GET,
-            //    Href = urlHelper.Link("DefaultApi", url),
-            //    Rel = RelationType.self,
-            //    Type = ResponseTypeFormat.DefaultGet
-            //});
-
             content.Links.Add(new HyperMediaLink()
             {
                 Action = HttpActionVerb.GET,

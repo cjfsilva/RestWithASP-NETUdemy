@@ -1,5 +1,8 @@
-﻿namespace RestWithASPNETUdemy.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RestWithASPNETUdemy.Model
 {
+    [Table("persons")]
     public class Person
     {
         public long? Id { get; set; }

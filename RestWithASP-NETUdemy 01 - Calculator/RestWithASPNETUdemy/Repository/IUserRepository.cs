@@ -2,8 +2,8 @@
 
 namespace RestWithASPNETUdemy.Repository
 {
-    public interface ILoginRepository
+    public interface IUserRepository
     {
-        Login FindByLogin(string login);
+        User FindByLogin(string login);
     }
 }

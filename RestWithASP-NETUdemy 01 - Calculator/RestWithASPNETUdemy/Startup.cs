@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RestWithASPNETUdemy.Business;
 using RestWithASPNETUdemy.Business.Implementations;
@@ -19,6 +20,8 @@ using RestWithASPNETUdemy.Repository.Generic;
 using RestWithASPNETUdemy.Repository.Implementations;
 using RestWithASPNETUdemy.Security.Configuration;
 using System;
+using System.Configuration;
+using System.Text;
 using Tapioca.HATEOAS;
 
 namespace RestWithASPNETUdemy
@@ -52,7 +55,7 @@ namespace RestWithASPNETUdemy
             ExecuteMigrations(connectionString);
 
             //Token JWT
-            /*var signingConfigurations = new SigningConfigurations();
+            var signingConfigurations = new SigningConfigurations();
             services.AddSingleton(signingConfigurations);
 
             var tokenConfigurations = new TokenConfigurations();
@@ -69,7 +72,9 @@ namespace RestWithASPNETUdemy
                 authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(bearerOptions =>
-            {         
+            {
+                bearerOptions.RequireHttpsMetadata = false;
+                bearerOptions.SaveToken = true;
                 var paramsValidation = bearerOptions.TokenValidationParameters;
                 paramsValidation.IssuerSigningKey = signingConfigurations.Key;
                 paramsValidation.ValidAudience = tokenConfigurations.Audience;
@@ -86,7 +91,6 @@ namespace RestWithASPNETUdemy
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser().Build());
             });
-            */
             //FIM TOKEN
 
             services.AddControllers(options =>
@@ -104,7 +108,7 @@ namespace RestWithASPNETUdemy
             services.AddScoped<IPerson2Repository, Person2RepositoryImpl>();
             services.AddScoped<IBookBusiness, BookBusinessImpl>();
             services.AddScoped<IPerson2Business, Person2BusinessImpl>();
-            services.AddScoped<ILoginRepository, LoginRepositoryImpl>();
+            services.AddScoped<IUserRepository, UserRepositoryImpl>();
             services.AddScoped<ILoginBusiness, LoginBusinessImpl>();
             services.AddScoped<IFileBusiness, FileBusinessImpl>();
 

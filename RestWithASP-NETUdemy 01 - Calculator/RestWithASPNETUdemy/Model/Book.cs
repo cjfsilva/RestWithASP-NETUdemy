@@ -1,8 +1,10 @@
 ﻿using RestWithASPNETUdemy.Model.Base;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestWithASPNETUdemy.Model
 {
+    [Table("books")]
     public class Book : BaseEntity
     {
         public string Title { get; set; }
